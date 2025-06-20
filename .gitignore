@@ -1,0 +1,158 @@
+# ViTscale Project .gitignore
+
+# ========================================
+# Python
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ========================================
+# Virtual Environments
+# ========================================
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ========================================
+# Jupyter Notebooks
+# ========================================
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# ========================================
+# PyTorch & ML
+# ========================================
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# Model checkpoints and weights
+checkpoints/
+weights/
+models/saved_models/
+*.model
+
+# ========================================
+# Datasets (Large Files)
+# ========================================
+data/
+datasets/
+*.tar
+*.tar.gz
+*.zip
+*.rar
+
+# CIFAR datasets
+cifar-10-python.tar.gz
+cifar-100-python.tar.gz
+cifar-10-batches-py/
+cifar-100-python/
+
+# ========================================
+# Logs and Outputs
+# ========================================
+*.log
+logs/
+runs/
+wandb/
+tensorboard_logs/
+mlruns/
+
+# ========================================
+# Results (Optional - Keep Some)
+# ========================================
+# Uncomment these if you want to exclude results from git
+# plots/*.csv
+# plots/*.png
+# analysis/results/
+# *.html
+
+# But keep important result files for documentation
+!plots/example_*.png
+!analysis/results/*/README.md
+
+# ========================================
+# Temporary Files
+# ========================================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========================================
+# IDE & Editor
+# ========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ========================================
+# CUDA & GPU
+# ========================================
+*.cudnn
+*.cubin
+
+# ========================================
+# Conda/Pip
+# ========================================
+*.conda
+*.whl
+
+# ========================================
+# Local Configuration
+# ========================================
+config_local.yaml
+.env.local
+secrets.yaml
+
+# ========================================
+# Large benchmark files (if any)
+# ========================================
+large_benchmark_*.csv
+profile_*.prof
+
+# ========================================
+# Documentation Build
+# ========================================
+docs/_build/
+site/

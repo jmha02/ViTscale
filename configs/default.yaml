@@ -1,0 +1,38 @@
+model_name: "vit_base_patch16_224"
+dataset: "cifar10"
+data_dir: "./data"
+image_size: 224
+batch_size: 32
+num_workers: 0
+
+# Training parameters
+epochs: 10
+learning_rate: 0.0001
+weight_decay: 0.01
+optimizer: "adamw"
+scheduler: "cosine"
+
+# LoRA parameters
+lora_rank: 8
+lora_alpha: 16
+lora_dropout: 0.1
+target_modules: ["qkv", "proj"]
+
+# Performance monitoring
+warmup_iterations: 5
+benchmark_iterations: 100
+save_plots: true
+plot_dir: "./plots"
+
+# Model saving
+save_model: true
+model_dir: "./models"
+
+# Device settings
+device: "cuda"
+mixed_precision: true
+
+# Logging
+log_interval: 100
+use_wandb: false
+project_name: "vitscale"
