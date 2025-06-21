@@ -1,3 +1,3 @@
-from .vit_models import ViTWithSimpleLoRA, BaselineViT, create_model
+from .vit_models import ViTWithPEFTLoRA, BaselineViT, create_model, print_model_info
 
-__all__ = ['ViTWithSimpleLoRA', 'BaselineViT', 'create_model']
+__all__ = ['ViTWithPEFTLoRA', 'BaselineViT', 'create_model', 'print_model_info']

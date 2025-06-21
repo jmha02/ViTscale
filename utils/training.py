@@ -243,3 +243,52 @@ def accuracy(output: torch.Tensor, target: torch.Tensor, topk: tuple = (1,)) -> 
             res.append(correct_k.mul_(100.0 / batch_size))
         
         return res
+
+def train_epoch(model, train_loader, criterion, optimizer, device):
+    """Train model for one epoch"""
+    model.train()
+    running_loss = 0.0
+    correct = 0
+    total = 0
+    
+    for batch_idx, (inputs, targets) in enumerate(train_loader):
+        inputs, targets = inputs.to(device), targets.to(device)
+        
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, targets)
+        loss.backward()
+        optimizer.step()
+        
+        running_loss += loss.item()
+        _, predicted = outputs.max(1)
+        total += targets.size(0)
+        correct += predicted.eq(targets).sum().item()
+    
+    epoch_loss = running_loss / len(train_loader)
+    epoch_acc = 100.0 * correct / total
+    
+    return epoch_loss, epoch_acc
+
+def evaluate_model(model, val_loader, criterion, device):
+    """Evaluate model on validation set"""
+    model.eval()
+    running_loss = 0.0
+    correct = 0
+    total = 0
+    
+    with torch.no_grad():
+        for inputs, targets in val_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+            
+            running_loss += loss.item()
+            _, predicted = outputs.max(1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+    
+    val_loss = running_loss / len(val_loader)
+    val_acc = 100.0 * correct / total
+    
+    return val_loss, val_acc

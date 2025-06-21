@@ -7,6 +7,9 @@ torchaudio>=2.0.0
 # Vision Transformer library
 timm>=0.9.0
 
+# Parameter-Efficient Fine-Tuning
+peft>=0.7.0
+
 # FLOPs calculation
 fvcore==0.1.5.post20221221
 

@@ -60,6 +60,8 @@ class ViTWithPEFTLoRA(nn.Module):
         
         # Create LoRA configuration
         lora_config = LoraConfig(
+            task_type=TaskType.FEATURE_EXTRACTION,  # For vision tasks
+            inference_mode=False,
             r=lora_rank,
             lora_alpha=lora_alpha,
             lora_dropout=lora_dropout,
