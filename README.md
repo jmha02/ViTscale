@@ -1,51 +1,89 @@
-# ViT LoRA Comparison
+# Simple ViT CIFAR-100 Training
 
-A comprehensive comparison framework for analyzing Vision Transformer (ViT) performance with LoRA (Low-Rank Adaptation) vs Full Fine-tuning.
+Minimal Vision Transformer training scripts for CIFAR-100 dataset - both regular and LoRA versions.
 
-
-## Installation
+## Setup
 
 ```bash
-# Create conda environment
-conda env create -f environment.yml
-conda activate vitscale
+pip install -r requirements.txt
 ```
 
 ## Usage
 
-### **Run ViT LoRA Comparison**
+### Regular ViT Training
 ```bash
-# Run full comparison (baseline + LoRA)
-python vit_lora_comparison.py
-
-# Use quick test configuration (5 epochs)
-python vit_lora_comparison.py --config configs/quick_test.yaml
-
-# Use custom configuration
-python vit_lora_comparison.py --config configs/my_custom_config.yaml
+python train_vit_cifar100.py
 ```
 
-## Configuration
-
-Edit `configs/default.yaml` to customize:
-
-```yaml
-# Model and dataset (any timm model supported)
-model_name: "vit_small_patch16_224"  # or "vit_base_patch16_224", etc.
-dataset: "cifar100"                  # or "cifar10"
-image_size: 224
-batch_size: 32
-epochs: 100
-
-# LoRA parameters
-lora_rank: 8
-lora_alpha: 16
-lora_dropout: 0.1
-target_modules: ["qkv", "proj"]  # ViT attention modules
-
-# Training parameters
-learning_rate: 0.001
-weight_decay: 0.05
-optimizer: "adamw"
-scheduler: "cosine"
+### LoRA ViT Training
+```bash
+python train_vit_lora_cifar100.py
 ```
+
+### Performance Comparison
+```bash
+python compare_vit_lora.py
+```
+
+### Continual Learning (Split-CIFAR100)
+```bash
+# Baseline continual learning (no regularization)
+python train_vit_continual_baseline.py
+python train_vit_lora_continual_baseline.py
+
+# Compare baseline approaches
+python compare_continual_baseline.py  # Baseline ViT vs LoRA
+
+# Advanced continual learning (with EWC + replay)
+python train_vit_continual.py
+python train_vit_lora_continual.py
+```
+
+The training scripts will:
+- Download CIFAR-100 dataset automatically
+- Train a ViT-Small model for 50 epochs
+- Save the best model
+- Print training progress every 100 batches
+
+## What it does
+
+- **Model**: ViT-Small (Vision Transformer Small) from timm
+- **Dataset**: CIFAR-100 (100 classes, 32x32 images resized to 224x224)
+- **Training**: 50 epochs with AdamW optimizer
+- **LoRA**: Uses HuggingFace PEFT library with rank=8, alpha=16
+- **No configs, no arguments** - just run and train!
+
+The LoRA version trains only ~1-2% of parameters compared to full fine-tuning while maintaining similar performance.
+
+## Performance Comparison
+
+The `compare_vit_lora.py` script provides detailed benchmarks:
+
+- **Memory Usage**: GPU and CPU memory consumption
+- **Training Speed**: Per epoch, per batch, and per step timing
+- **Parameter Efficiency**: Total vs trainable parameter counts
+- **Side-by-side Comparison**: Direct comparison table with improvement ratios
+
+This helps you understand the practical benefits of LoRA in terms of memory efficiency and training performance.
+
+## Continual Learning
+
+The continual learning scripts demonstrate **online learning** scenarios:
+
+- **Split-CIFAR100**: 10 sequential tasks, 10 classes each
+- **Catastrophic Forgetting**: How models forget previous tasks
+
+**Baseline Scripts** (Pure sequential learning):
+- `train_vit_continual_baseline.py` - Regular ViT without any regularization
+- `train_vit_lora_continual_baseline.py` - LoRA ViT without any regularization
+- Shows raw catastrophic forgetting effect
+
+**Advanced Scripts** (With mitigation strategies):
+- `train_vit_continual.py` - Regular ViT with EWC + Experience Replay
+- `train_vit_lora_continual.py` - LoRA ViT with adapters + Experience Replay
+
+**Key Features:**
+- Sequential task learning (online learning)
+- Catastrophic forgetting measurement
+- LoRA vs full fine-tuning comparison in continual setting
+- Baseline vs advanced continual learning strategies
