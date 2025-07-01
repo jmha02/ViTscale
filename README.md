@@ -20,9 +20,15 @@ python train_vit_cifar100.py
 python train_vit_lora_cifar100.py
 ```
 
+### SparseLoRA ViT Training
+```bash
+python train_vit_sparselora_cifar100.py
+```
+
 ### Performance Comparison
 ```bash
-python compare_vit_lora.py
+python compare_vit_lora.py           # Compare Baseline vs LoRA
+python compare_vit_sparselora.py     # Compare Baseline vs LoRA vs SparseLoRA
 ```
 
 ### Continual Learning (Split-CIFAR100)
@@ -51,20 +57,29 @@ The training scripts will:
 - **Dataset**: CIFAR-100 (100 classes, 32x32 images resized to 224x224)
 - **Training**: 50 epochs with AdamW optimizer
 - **LoRA**: Uses HuggingFace PEFT library with rank=8, alpha=16
+- **SparseLoRA**: Custom implementation combining LoRA with dynamic sparsity
 - **No configs, no arguments** - just run and train!
 
 The LoRA version trains only ~1-2% of parameters compared to full fine-tuning while maintaining similar performance.
+The SparseLoRA version further reduces active parameters through dynamic sparsity while maintaining efficiency.
 
 ## Performance Comparison
 
-The `compare_vit_lora.py` script provides detailed benchmarks:
+The comparison scripts provide detailed benchmarks:
 
+**`compare_vit_lora.py`** (Baseline vs LoRA):
 - **Memory Usage**: GPU and CPU memory consumption
 - **Training Speed**: Per epoch, per batch, and per step timing
 - **Parameter Efficiency**: Total vs trainable parameter counts
 - **Side-by-side Comparison**: Direct comparison table with improvement ratios
 
-This helps you understand the practical benefits of LoRA in terms of memory efficiency and training performance.
+**`compare_vit_sparselora.py`** (Baseline vs LoRA vs SparseLoRA):
+- **All LoRA comparisons** plus SparseLoRA specific metrics
+- **Sparsity Analysis**: Dynamic sparsity evolution during training
+- **Effective Parameter Efficiency**: Active parameter usage vs total parameters
+- **Memory and Speed Improvements**: Three-way performance comparison
+
+This helps you understand the practical benefits of LoRA and SparseLoRA in terms of memory efficiency, training performance, and parameter utilization.
 
 ## Continual Learning
 
